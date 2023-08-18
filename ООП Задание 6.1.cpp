@@ -9,11 +9,11 @@ using namespace std;
 class QueueRing
 {
 	//Очередь
-	char* Wait;
+	int* Wait;
 	//Максимальный размер очереди
-	char MaxQueueLength;
+	int MaxQueueLength;
 	//Текущий размер очереди
-	char QueueLength;
+	int QueueLength;
 public:
 	//Конструктор
 	QueueRing(int m);
@@ -22,7 +22,7 @@ public:
 	//Добавление элемента
 	void Add(int c);
 	//Извлечение элемента
-	bool Extract();
+	int Extract();
 	//Очистка очереди
 	void Clear();
 	//Проверка существования элементов в очереди
@@ -52,7 +52,7 @@ QueueRing::QueueRing(int m)
 	//получаем размер
 	MaxQueueLength = m;
 	//создаем очередь
-	Wait = new char[MaxQueueLength];
+	Wait = new int[MaxQueueLength];
 	//Изначально очередь пуста
 	QueueLength = 0;
 }
@@ -84,13 +84,13 @@ void QueueRing::Add(int c)
 	if (!IsFull())
 		Wait[QueueLength++] = c;
 }
-bool QueueRing::Extract()
+int QueueRing::Extract()
 {
 	//Если в очереди есть элементы, то возвращаем тот,
 	//который вошел первым и сдвигаем очередь 
 	if (!IsEmpty()) {
 		//запомнить первый
-		char temp = Wait[0];
+		int temp = Wait[0];
 		//сдвинуть все элементы
 		for (int i = 1; i < QueueLength; i++)
 			Wait[i - 1] = Wait[i];
@@ -103,37 +103,51 @@ bool QueueRing::Extract()
 }
 void main()
 {
+	setlocale(LC_ALL, "ru");
 	srand(time(0));
 	//создание очереди
-	QueueRing QUR(25);
+	QueueRing QUR(5);
 	//заполнение части элементов
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 3; i++) {
 		QUR.Add(rand() % 50);
 	}
 	//показ очереди
-	QUR.Show();
-	cout << endl;
+	//QUR.Show();
+	//cout << endl;
+	int f, j, k;
+	int h1, h2, h3;
 	int r1 = rand();
-	for (int i = 0; i < r1; i++) {
+	for (f = 0; f < r1; f++) {
 		//извлечение элемента
-		QUR.Extract();
+		h1 = QUR.Extract();
+		//cout << h1 << " ";
 	}
 	//показ очереди
 	QUR.Show();
 	int r2 = rand();
-	for (int i = 0; i < r2; i++) {
+	for (j = 0; j < r2; j++) {
 		//извлечение элемента
-		QUR.Extract();
+		h2 = QUR.Extract();
+		//cout << h2 << " ";
 	}
 	//показ очереди
 	QUR.Show();
 	int r3 = rand();
-	for (int i = 0; i < r3; i++) {
+	for (k = 0; k < r3; k++) {
 		//извлечение элемента
-		QUR.Extract();
+		h3 = QUR.Extract();
+		//cout << h3 << " ";
 	}
 	//показ очереди
 	QUR.Show();
+	cout << endl;
+	if (h1 == h2 && h1 == h3 && h2 == h3) {
+		cout << "ВІТАЮ!!!\nСпівпали всі зображення на трьох барабанах!!!\nВи отримуєте приз 5000грн\n\n";
+	}
+	else {
+		cout << "Нажаль зображення на барабанах не співпали.\nНаступного разу Вам пощастить.\nСпробуйте ще раз.\n\n";
+	}
 }
+
 
 // Элемент, вышедший из кольцевой очереди, не выбрасывается, а становится в конце очереди
